@@ -70,6 +70,7 @@ follower来到Raft只做三件事：
 
 # 写请求流程
 一个写请求的处理要经历三个阶段：proposal，commit，applied
+
 proposal阶段是leader征求各个follower同意的阶段，当半数以上节点同意这个写请求后，它就会从proposal变成commit阶段，当然，proposal有可能失败，原因是leader的WAL和follower的WAL不一致，这个不一致又可以分成leader滞后和follower滞后，leader滞后就需要重新选举leader，follower滞后就需要leader和它进行WAL同步，两种滞后都会导致该节点反对此次写操作
 
 当写操作从proposal阶段进入到commit阶段之后，就代表此次写操作已经被系统认可，迟早都会写入到系统的状态机中
